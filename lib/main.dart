@@ -1,16 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:foraneoapp/testing.dart';
+import 'package:foraneoapp/pages/testing.dart';
 import 'firebase_options.dart';
 import 'package:geolocator/geolocator.dart';
 import 'locationService.dart';
 import 'forum.dart';
-import 'package:foraneoapp/widgets/footer.dart';
-import 'login.dart';
-import 'package:foraneoapp/register.dart';
+import 'package:foraneoapp/footer.dart';
+import 'pages/login.dart';
+import 'package:foraneoapp/pages/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -62,111 +61,105 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
- @override
-  void initState(){
+  @override
+  void initState() {
     super.initState();
-   FirebaseAuth.instance
-  .authStateChanges()
-  .listen((User? user) {
-    if (user == null) {
-      setState(() {
-        isUseractive = false;
-      });
-      print("User not active");
-    } else {
-      setState(() {
-        isUseractive = true;
-      });
-      print("User active!");
-    }
-  });
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user == null) {
+        setState(() {
+          isUseractive = false;
+        });
+        print("User not active");
+      } else {
+        setState(() {
+          isUseractive = true;
+        });
+        print("User active!");
+      }
+    });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(0, 0, 0, 0),
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 0, 0, 0),
-        
-        leading:
-        Visibility(
+        leading: Visibility(
           visible: isUseractive,
-        child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-               new GestureDetector(
-                  onTap: ()async{
-  
-                  await FirebaseAuth.instance.signOut();
-                  },
-                child: Container(
-                  
-                  decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: const BorderRadius.all(Radius.circular(10))),
-                padding: const EdgeInsets.symmetric(
-                 horizontal: 10.0),
+          child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            new GestureDetector(
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Color.fromARGB(255, 255, 255, 255),
+                    borderRadius: const BorderRadius.all(Radius.circular(10))),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Center(
                   child: Text(
                     "Logout",
                     style: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 10.0),
+                        color: Color.fromARGB(255, 0, 0, 0), fontSize: 10.0),
                   ),
                 ),
-              ),),
-            ]),),
-
-
+              ),
+            ),
+          ]),
+        ),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-              Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-               new GestureDetector(
-                  onTap: (){
-  
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
-                  },
+            Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+              new GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginPage()));
+                },
                 child: Container(
-                  
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: const BorderRadius.all(Radius.circular(10))),
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 16.0),
-                child: Center(
-                  child: Text(
-                    "Login page",
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 30.0),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 16.0),
+                  child: Center(
+                    child: Text(
+                      "Login page",
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0), fontSize: 30.0),
+                    ),
                   ),
                 ),
-              ),),
+              ),
             ]),
-             Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+            Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
               new GestureDetector(
-                onTap:() {
-                   Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => RegisterPage()));
                 },
                 child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 20.0),
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 255, 255, 255),
-                      borderRadius: const BorderRadius.all(Radius.circular(10))),
-                padding: const EdgeInsets.symmetric(
-                    vertical: 10.0, horizontal: 16.0),
-                child: Center(
-                  child: Text(
-                    "Register page",
-                    style: TextStyle(
-                        color: Color.fromARGB(255, 0, 0, 0),
-                        fontSize: 30.0),
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(10))),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 16.0),
+                  child: Center(
+                    child: Text(
+                      "Register page",
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 0, 0, 0), fontSize: 30.0),
+                    ),
                   ),
                 ),
-              ),),
+              ),
             ]),
-
           ],
         ),
       ),

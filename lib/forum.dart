@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'locationService.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'testing.dart';
+import 'pages/testing.dart';
 
 void addDocument(String msg, double longitud, double latitud) {
   FirebaseFirestore.instance.collection('forum').add({
@@ -40,7 +40,8 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 10.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 25.0, vertical: 10.0),
                   child: DropdownButton<String>(
                     value: selectedDropdownValue,
                     dropdownColor: Colors.green[900],
@@ -68,10 +69,14 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                 ),
                 Expanded(
                   child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance.collection('forum').snapshots(),
+                    stream: FirebaseFirestore.instance
+                        .collection('forum')
+                        .snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
-                        return Center(child: Text('Error: ${snapshot.error}', style: TextStyle(color: Colors.white)));
+                        return Center(
+                            child: Text('Error: ${snapshot.error}',
+                                style: TextStyle(color: Colors.white)));
                       }
 
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -81,27 +86,38 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                       return FutureBuilder<Position>(
                         future: _runLocationService(),
                         builder: (context, positionSnapshot) {
-                          if (positionSnapshot.connectionState == ConnectionState.waiting) {
+                          if (positionSnapshot.connectionState ==
+                              ConnectionState.waiting) {
                             return Center(child: CircularProgressIndicator());
                           }
 
                           if (positionSnapshot.hasError) {
-                            return Center(child: Text('Error getting user location: ${positionSnapshot.error}', style: TextStyle(color: Colors.white)));
+                            return Center(
+                                child: Text(
+                                    'Error getting user location: ${positionSnapshot.error}',
+                                    style: TextStyle(color: Colors.white)));
                           }
 
                           Position user = positionSnapshot.data!;
                           return ListView.builder(
                             itemCount: snapshot.data!.docs.length,
                             itemBuilder: (context, index) {
-                              DocumentSnapshot document = snapshot.data!.docs[index];
+                              DocumentSnapshot document =
+                                  snapshot.data!.docs[index];
                               var longitud = document['longitud'];
                               var latitud = document['latitud'];
                               var dropdownValue = document['dropdown'];
                               var distance = locationService.calculateDistance(
-                                  user.latitude, user.longitude, latitud, longitud);
-                              if (distance <= nearbyRadius && dropdownValue == selectedDropdownValue) {
-                                var titles = document['title']; // Replace 'title' with the name of your field
-                                var data = document['data'];   // Replace 'data' with the name of your field
+                                  user.latitude,
+                                  user.longitude,
+                                  latitud,
+                                  longitud);
+                              if (distance <= nearbyRadius &&
+                                  dropdownValue == selectedDropdownValue) {
+                                var titles = document[
+                                    'title']; // Replace 'title' with the name of your field
+                                var data = document[
+                                    'data']; // Replace 'data' with the name of your field
                                 return Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
@@ -125,30 +141,41 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                                         );
                                       },
                                       child: Container(
-                                        margin: EdgeInsets.all(16), // Ajusta el margen según tus necesidades
+                                        margin: EdgeInsets.all(
+                                            16), // Ajusta el margen según tus necesidades
                                         decoration: BoxDecoration(
-                                          color: Color.fromARGB(255, 47, 105, 49), // Cambia el color de fondo
-                                          borderRadius: BorderRadius.circular(25), // Redondea los bordes del contenedor
+                                          color: Color.fromARGB(255, 47, 105,
+                                              49), // Cambia el color de fondo
+                                          borderRadius: BorderRadius.circular(
+                                              25), // Redondea los bordes del contenedor
                                         ),
                                         child: ClipRRect(
-                                          borderRadius: BorderRadius.circular(25), // Redondea los bordes del contenedor
+                                          borderRadius: BorderRadius.circular(
+                                              25), // Redondea los bordes del contenedor
                                           child: Column(
                                             children: [
                                               Padding(
-                                                padding: const EdgeInsets.all(16),
+                                                padding:
+                                                    const EdgeInsets.all(16),
                                                 child: Row(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: <Widget>[
                                                     Column(
-                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
                                                       children: <Widget>[
                                                         Text(
                                                           '$titles',
                                                           style: TextStyle(
                                                             color: Colors.white,
                                                             fontSize: 20,
-                                                            fontWeight: FontWeight.bold,
+                                                            fontWeight:
+                                                                FontWeight.bold,
                                                           ),
                                                         ),
                                                         SizedBox(height: 8),
@@ -163,16 +190,20 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                                                     ),
                                                     Expanded(
                                                       child: Row(
-                                                        mainAxisAlignment: MainAxisAlignment.end,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .end,
                                                         children: <Widget>[
                                                           Column(
                                                             children: <Widget>[
                                                               ClipOval(
-                                                                child: Image.network(
+                                                                child: Image
+                                                                    .network(
                                                                   'https://via.placeholder.com/50',
                                                                   width: 70,
                                                                   height: 70,
-                                                                  fit: BoxFit.fitWidth,
+                                                                  fit: BoxFit
+                                                                      .fitWidth,
                                                                 ),
                                                               ),
                                                             ],
@@ -191,7 +222,8 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                                   ],
                                 );
                               } else {
-                                return SizedBox.shrink(); // If message is not nearby, return an empty SizedBox
+                                return SizedBox
+                                    .shrink(); // If message is not nearby, return an empty SizedBox
                               }
                             },
                           );
@@ -211,7 +243,9 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => Testing(title: 'Añadiendo Datos', dropdownValue: selectedDropdownValue),
+                      builder: (context) => Testing(
+                          title: 'Añadiendo Datos',
+                          dropdownValue: selectedDropdownValue),
                     ),
                   );
                 },
