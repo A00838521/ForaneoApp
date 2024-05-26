@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../locationService.dart';
-import '../forum.dart';
+import 'locationService.dart';
+import 'forum.dart';
 
 class Testing extends StatefulWidget {
   const Testing({Key? key, required this.title, required this.dropdownValue})

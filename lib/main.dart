@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:foraneoapp/pages/testing.dart';
+import 'package:foraneoapp/testing.dart';
 import 'firebase_options.dart';
 import 'package:geolocator/geolocator.dart';
 import 'locationService.dart';
 import 'forum.dart';
-import 'package:foraneoapp/footer.dart';
-import 'pages/login.dart';
-import 'package:foraneoapp/pages/register.dart';
+import 'package:foraneoapp/widget/footer.dart';
+import 'login.dart';
+import 'package:foraneoapp/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {

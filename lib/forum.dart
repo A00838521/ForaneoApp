@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'locationService.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'pages/testing.dart';
+import 'testing.dart';
 
 void addDocument(String msg, double longitud, double latitud) {
   FirebaseFirestore.instance.collection('forum').add({
