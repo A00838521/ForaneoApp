@@ -1,8 +1,12 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:foraneoapp/main.dart';
-import 'firebase_options.dart';
+import 'package:foraneoapp/pages/register.dart';
+import 'package:foraneoapp/pages/user_settings.dart';
+import '../firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 Future<bool> login_user(String email, String password) async {
@@ -71,6 +75,12 @@ class _LoginPageState extends State<LoginPage> {
         print('User is currently signed out!');
       } else {
         print('User is signed in!');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserSettings(),
+          ),
+        );
       }
     });
 
@@ -83,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Color.fromARGB(255, 0, 0, 0),
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(1, 0, 0, 0),
-        leading: new GestureDetector(
+        leading: GestureDetector(
           child: Icon(
             Icons.arrow_back,
             size: 25.0,
@@ -91,11 +101,13 @@ class _LoginPageState extends State<LoginPage> {
           ),
           onTap: () {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => MyHomePage(
-                          title: 'Main page',
-                        )));
+              context,
+              MaterialPageRoute(
+                builder: (context) => MyHomePage(
+                  title: 'Main page',
+                ),
+              ),
+            );
           },
         ),
       ),
@@ -108,84 +120,124 @@ class _LoginPageState extends State<LoginPage> {
               Text(
                 "Iniciar Sesion",
                 style: TextStyle(
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    fontSize: 50.0,
-                    fontFamily: "Helvetica",
-                    fontWeight: FontWeight.bold),
+                  color: Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 50.0,
+                  fontFamily: "Helvetica",
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Input_forms(
-                  Icon(
-                    Icons.email,
-                    color: Color.fromARGB(255, 207, 207, 207),
-                    size: 24.0,
-                  ),
-                  "Ingresa tu email",
-                  "Email",
-                  emailController),
+                Icon(
+                  Icons.email,
+                  color: Color.fromARGB(255, 207, 207, 207),
+                  size: 24.0,
+                ),
+                "Ingresa tu email",
+                "Email",
+                emailController,
+              ),
               Input_forms(
-                  Icon(
-                    Icons.password,
-                    color: Color.fromARGB(255, 207, 207, 207),
-                    size: 24.0,
-                  ),
-                  "Contraseña",
-                  "Password",
-                  passwordController),
+                Icon(
+                  Icons.password,
+                  color: Color.fromARGB(255, 207, 207, 207),
+                  size: 24.0,
+                ),
+                "Contraseña",
+                "Password",
+                passwordController,
+              ),
               Visibility(
-                  visible: wrong_data,
-                  child: Text(
-                    "El correo o contraseña son incorrectos, revise sus datos.",
-                    style: TextStyle(
-                      color: Color.fromARGB(185, 255, 0, 0),
-                      fontSize: 15.0,
-                      fontFamily: "Helvetica",
-                    ),
-                    textAlign: TextAlign.center,
-                  )),
-              Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                new GestureDetector(
-                  onTap: () async {
-                    if (_formKey.currentState!.validate()) {
-                      setState(() {
-                        wrong_data = false;
-                      });
-                      print(emailController.text.trim());
-                      print(passwordController.text.trim());
-                      if (await login_user(emailController.text.trim(),
-                          passwordController.text.trim())) {
-                        //navigate
-                        Navigator.push(
+                visible: wrong_data,
+                child: Text(
+                  "El correo o contraseña son incorrectos, revise sus datos.",
+                  style: TextStyle(
+                    color: Color.fromARGB(185, 255, 0, 0),
+                    fontSize: 15.0,
+                    fontFamily: "Helvetica",
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  GestureDetector(
+                    onTap: () async {
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          wrong_data = false;
+                        });
+                        print(emailController.text.trim());
+                        print(passwordController.text.trim());
+                        if (await login_user(emailController.text.trim(),
+                            passwordController.text.trim())) {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => MyHomePage(
-                                      title: 'Main page',
-                                    )));
-                      } else {
-                        setState(() {
-                          wrong_data = true;
-                        });
+                              builder: (context) => MyHomePage(
+                                title: 'Main page',
+                              ),
+                            ),
+                          );
+                        } else {
+                          setState(() {
+                            wrong_data = true;
+                          });
+                        }
                       }
-                    }
-                  },
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 10.0),
-                    decoration: BoxDecoration(
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      decoration: BoxDecoration(
                         color: Color.fromARGB(255, 255, 255, 255),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(50))),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 10.0, horizontal: 40.0),
-                    child: Center(
-                      child: Text(
-                        "Login",
-                        style: TextStyle(
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 40.0),
+                      child: Center(
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
                             color: Color.fromARGB(255, 0, 0, 0),
-                            fontSize: 30.0),
+                            fontSize: 30.0,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ]),
+                  SizedBox(width: 20), // Add spacing between buttons
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate to registration page
+                      // Implement the navigation logic here
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RegisterPage(),
+                        ),
+                      );
+                    },
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 10.0),
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        borderRadius: BorderRadius.all(Radius.circular(50)),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 10.0, horizontal: 40.0),
+                      child: Center(
+                        child: Text(
+                          "Register",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 0, 0, 0),
+                            fontSize: 30.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

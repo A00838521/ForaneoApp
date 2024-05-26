@@ -43,10 +43,6 @@ class _FooterState extends State<Footer> {
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.info),
-                  label: 'About',
-                ),
-                BottomNavigationBarItem(
                   icon: Icon(Icons.chat),
                   label: 'Chat',
                 ),

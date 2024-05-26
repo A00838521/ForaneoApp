@@ -75,6 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
           isUseractive = true;
         });
         print("User active!");
+        // dont show login
       }
     });
   }
