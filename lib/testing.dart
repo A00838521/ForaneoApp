@@ -1,35 +1,45 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'locationService.dart';
 import 'forum.dart';
 
 class Testing extends StatefulWidget {
-  const Testing({super.key, required this.title});
+  const Testing({Key? key, required this.title}) : super(key: key);
 
   final String title;
+
   @override
-  State<Testing> createState() => testing();
+  State<Testing> createState() => _TestingState();
 }
 
-class testing extends State<Testing> {
+class _TestingState extends State<Testing> {
   final LocationService locationService = LocationService();
-  FirebaseFirestore db = FirebaseFirestore.instance;
-  String inputValue = '';
+  TextEditingController titleController = TextEditingController();
+  TextEditingController dataController = TextEditingController();
 
-  Future<void> handleSubmitted(String value) async {
+  Future<void> handleSubmitted() async {
     Position userLocation = await locationService.getCurrentLocation();
     print(userLocation.longitude);
-    print(userLocation.altitude);
-    var something = 'algo aqui';
+    print(userLocation.latitude);
     FirebaseFirestore.instance.collection('forum').add({
-      'title': value,
-      'data': something,
+      'title': titleController.text,
+      'data': dataController.text,
       'longitud': userLocation.longitude,
       'latitud': userLocation.latitude,
     });
+
+    // Clear the input values after submission
+    titleController.clear();
+    dataController.clear();
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controllers when the widget is disposed
+    titleController.dispose();
+    dataController.dispose();
+    super.dispose();
   }
 
   @override
@@ -45,22 +55,26 @@ class testing extends State<Testing> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               TextField(
-                onChanged: (value) {
-                  setState(() {
-                    inputValue = value;
-                  });
-                },
-                onSubmitted: handleSubmitted,
+                controller: titleController,
                 decoration: InputDecoration(
-                  hintText: 'Enter your text...',
-                  labelText: 'Text Input',
+                  hintText: 'Enter title...',
+                  labelText: 'Title',
                   border: OutlineInputBorder(),
                 ),
               ),
               SizedBox(height: 20.0),
-              Text(
-                'Input value: $inputValue',
-                style: TextStyle(fontSize: 18.0),
+              TextField(
+                controller: dataController,
+                decoration: InputDecoration(
+                  hintText: 'Enter data...',
+                  labelText: 'Data',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: handleSubmitted,
+                child: Text('Submit'),
               ),
               ElevatedButton(
                 onPressed: () {
