@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foraneoapp/widgets/wid_footer.dart';
 import 'package:foraneoapp/pages/home_page.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -9,15 +11,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      home: Scaffold(
+        backgroundColor: Colors.black,
+        body:HomePage(),
+        bottomNavigationBar: Footer(), // Insert your Footer widget here
       ),
-      home: HomePage(),
-      routes: {
-        '/details': (context) => DetailsPage(),
-        '/about': (context) => AboutPage(),
-      },
     );
   }
 }
