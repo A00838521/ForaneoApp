@@ -1,18 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:foraneoapp/testing.dart';
 import 'firebase_options.dart';
 import 'package:geolocator/geolocator.dart';
 import 'locationService.dart';
 import 'forum.dart';
-
-void addDocument(String msg, double longitud, double latitud) {
-  FirebaseFirestore.instance.collection('forum').add({
-    'msg': msg,
-    'longitud': longitud,
-    'latitud': latitud,
-  });
-}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,12 +22,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const Testing(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -69,43 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text('Simple Text Input'),
       ),
-      body: Center(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextField(
-                onChanged: (value) {
-                  setState(() {
-                    inputValue = value;
-                  });
-                },
-                onSubmitted: handleSubmitted,
-                decoration: InputDecoration(
-                  hintText: 'Enter your text...',
-                  labelText: 'Text Input',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 20.0),
-              Text(
-                'Input value: $inputValue',
-                style: TextStyle(fontSize: 18.0),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MyCollectionPage()),
-                  );
-                },
-                child: Text('Show Collection'),
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: Center(),
     );
   }
 }
