@@ -17,6 +17,7 @@ class _TestingState extends State<Testing> {
   final LocationService locationService = LocationService();
   TextEditingController titleController = TextEditingController();
   TextEditingController dataController = TextEditingController();
+  String dropdownValue = 'Noticias';
 
   Future<void> handleSubmitted() async {
     Position userLocation = await locationService.getCurrentLocation();
@@ -25,6 +26,7 @@ class _TestingState extends State<Testing> {
     FirebaseFirestore.instance.collection('forum').add({
       'title': titleController.text,
       'data': dataController.text,
+      'dropdown': dropdownValue, // Upload dropdown selection as a field
       'longitud': userLocation.longitude,
       'latitud': userLocation.latitude,
     });
@@ -70,6 +72,22 @@ class _TestingState extends State<Testing> {
                   labelText: 'Data',
                   border: OutlineInputBorder(),
                 ),
+              ),
+              SizedBox(height: 20.0),
+              DropdownButton<String>(
+                value: dropdownValue,
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                },
+                items: <String>['Noticias', 'Reseñas', 'Hacks', 'Social']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
               ),
               SizedBox(height: 20.0),
               ElevatedButton(

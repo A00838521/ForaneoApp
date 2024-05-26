@@ -11,15 +11,38 @@ void addDocument(String msg, double longitud, double latitud) {
   });
 }
 
-class MyCollectionPage extends StatelessWidget {
+class MyCollectionPage extends StatefulWidget {
+  @override
+  _MyCollectionPageState createState() => _MyCollectionPageState();
+}
+
+class _MyCollectionPageState extends State<MyCollectionPage> {
   final LocationService locationService = LocationService();
   final double nearbyRadius = 10000; // 10 kilometers
+  String selectedDropdownValue = 'Noticias'; // Valor predeterminado
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('My Collection'),
+        actions: [
+          DropdownButton<String>(
+            value: selectedDropdownValue,
+            onChanged: (String? newValue) {
+              setState(() {
+                selectedDropdownValue = newValue!;
+              });
+            },
+            items: <String>['Noticias', 'Reseñas', 'Hacks', 'Social']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance.collection('forum').snapshots(),
@@ -49,12 +72,14 @@ class MyCollectionPage extends StatelessWidget {
                 itemCount: snapshot.data!.docs.length,
                 itemBuilder: (context, index) {
                   DocumentSnapshot document = snapshot.data!.docs[index];
-                  // Verify that message is nearby
                   var longitud = document['longitud'];
                   var latitud = document['latitud'];
+                  var dropdownValue = document[
+                      'dropdown']; // Obtener el valor del campo dropdown
                   var distance = locationService.calculateDistance(
                       user.latitude, user.longitude, latitud, longitud);
-                  if (distance <= nearbyRadius) {
+                  if (distance <= nearbyRadius &&
+                      dropdownValue == selectedDropdownValue) {
                     var titles = document[
                         'title']; // Replace 'your_field' with the name of your field
                     var data = document['data'];
@@ -72,8 +97,7 @@ class MyCollectionPage extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return SizedBox
-                        .shrink(); // If message is not nearby, return an empty SizedBox
+                    return SizedBox.shrink();
                   }
                 },
               );
