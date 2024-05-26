@@ -49,10 +49,6 @@ class _FooterState extends State<Footer> {
                   label: 'Home',
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.info),
-                  label: 'About',
-                ),
-                BottomNavigationBarItem(
                   icon: Icon(Icons.chat),
                   label: 'Chat',
                 ),
@@ -61,7 +57,8 @@ class _FooterState extends State<Footer> {
                   label: 'Account',
                 ),
               ],
-              backgroundColor: Colors.transparent, // Cambia el color de fondo
+              backgroundColor:
+                  Color.fromARGB(255, 47, 105, 49), // Cambia el color de fondo
               selectedItemColor:
                   Colors.white, // Cambia el color del ítem seleccionado
               unselectedItemColor:
