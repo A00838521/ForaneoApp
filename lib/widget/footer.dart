@@ -14,7 +14,7 @@ class _FooterState extends State<Footer> {
   final List<Widget> _pages = [
     MyCollectionPage(),
     LoginPage(),
-    LoginPage()
+    UserSettings()
 ];
 
   @override

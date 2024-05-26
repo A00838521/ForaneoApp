@@ -45,7 +45,7 @@ class _MyCollectionPageState extends State<MyCollectionPage> {
                   child: DropdownButton<String>(
                     value: selectedDropdownValue,
                     dropdownColor: Colors.green[900],
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(color: Colors.white, fontSize: 30),
                     onChanged: (String? newValue) {
                       setState(() {
                         selectedDropdownValue = newValue!;
@@ -275,7 +275,6 @@ class DetailsPage extends StatelessWidget {
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.green[900],
-        title: Text(title),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -283,10 +282,20 @@ class DetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 40,
+                fontWeight:
+                    FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 8),
+            Text(
               data,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20,
+                fontSize: 30,
               ),
             ),
           ],
