@@ -34,6 +34,7 @@ class _ForoPageState extends State<ForoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       body: ListView.builder(
         itemCount: mensajes.length,
         itemBuilder: (context, index) {
@@ -44,10 +45,11 @@ class _ForoPageState extends State<ForoScreen> {
                 child: ListTile(
                   title: Text(
                     mensajes[index]['title'] ?? '',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(fontWeight: FontWeight.bold,color: Colors.green),
                   ),
                   subtitle: Text(
                     mensajes[index]['message'] ?? '',
+                    style: TextStyle(color: const Color.fromARGB(255, 205, 205, 205)),
                   ),
                 ),
               ),
@@ -63,11 +65,12 @@ class _ForoPageState extends State<ForoScreen> {
         },
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 47, 105, 49),
         onPressed: () {
           _agregarMensaje(context);
         },
         tooltip: 'Agregar Mensaje',
-        child: Icon(Icons.add),
+        child: Icon(Icons.add, color: Colors.white),
       ),
     );
   }

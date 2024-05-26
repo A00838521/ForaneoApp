@@ -14,6 +14,7 @@ class ChatTabview extends StatelessWidget {
         length: 2,
         child: Scaffold(
           appBar: AppBar(
+            backgroundColor: Colors.black,
             bottom: TabBar(
               indicatorColor:
                   Colors.transparent, // Para ocultar el indicador por defecto
@@ -56,7 +57,7 @@ class TabBarCustomItem extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             decoration: BoxDecoration(
               color: isSelected
-                  ? Color.fromARGB(170, 120, 170, 85)
+                  ? Color.fromARGB(170, 82, 113, 59)
                   : Colors.transparent,
               borderRadius: BorderRadius.circular(20),
             ),
@@ -65,16 +66,16 @@ class TabBarCustomItem extends StatelessWidget {
               children: [
                 Icon(icon,
                     color: isSelected
-                        ? Color.fromARGB(255, 44, 88, 52)
-                        : Colors.black),
+                        ? Color.fromARGB(255, 92, 156, 104)
+                        : Colors.white),
                 SizedBox(width: 8),
                 Text(
                   label,
                   style: TextStyle(
                     //color: isSelected ? color_accent : Colors.black,
                     color: isSelected
-                        ? Color.fromARGB(255, 44, 88, 52)
-                        : Colors.black,
+                        ? Color.fromARGB(255, 89, 156, 102)
+                        : Colors.white,
                     fontWeight:
                         isSelected ? FontWeight.bold : FontWeight.normal,
                   ),

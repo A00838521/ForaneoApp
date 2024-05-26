@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'dart:core';
 import 'dart:math';
 
-Color color_main = Color.fromARGB(170, 120, 170, 85);
-Color color_sec = Color.fromARGB(255, 29, 60, 35);
-Color color_accent = Color.fromARGB(191,127,190,145);
+Color color_main = Color.fromARGB(170, 64, 88, 48);
+Color color_sec = Color.fromARGB(255, 32, 63, 38);
+Color color_accent = Color.fromARGB(190, 79, 111, 88);
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -50,7 +50,9 @@ class _ChatAppState extends State<ChatScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.black,
         appBar: AppBar(
+          backgroundColor: Colors.black,
         ),
         body: Column(
           children: [
@@ -134,7 +136,7 @@ class ChatBubble extends StatelessWidget {
               children: [
                 Text(
                   userName,
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold, color: isUserMessage ? color_sec: Colors.white),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 5.0),
@@ -150,12 +152,12 @@ class ChatBubble extends StatelessWidget {
                   ),
                   child: Text(
                     message,
-                    style: TextStyle(color: isUserMessage ? color_sec: Colors.black),
+                    style: TextStyle(color: isUserMessage ? color_sec: Colors.white),
                   ),
                 ),
                 Text(
                   '$date $time',
-                  style: TextStyle(color: Colors.grey),
+                  style: TextStyle(color: const Color.fromARGB(255, 203, 203, 203)),
                 ),
               ],
             ),
