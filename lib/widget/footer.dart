@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foraneoapp/forum.dart';
 import 'package:foraneoapp/login.dart';
+import 'package:foraneoapp/user_settings.dart';
 
 class Footer extends StatefulWidget {
   @override
@@ -13,6 +14,7 @@ class _FooterState extends State<Footer> {
   final List<Widget> _pages = [
     MyCollectionPage(),
     LoginPage(),
+    LoginPage()
 ];
 
   @override
@@ -45,6 +47,10 @@ class _FooterState extends State<Footer> {
                 BottomNavigationBarItem(
                   icon: Icon(Icons.chat),
                   label: 'Chat',
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.person),
+                  label: 'Profile',
                 ),
               ],
               backgroundColor: Color.fromARGB(255, 47, 105, 49), // Cambia el color de fondo

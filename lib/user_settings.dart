@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:foraneoapp/main.dart';
-import 'package:foraneoapp/pages/login.dart';
+import 'package:foraneoapp/login.dart';
 
 class UserSettings extends StatefulWidget {
   @override

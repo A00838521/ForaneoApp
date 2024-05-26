@@ -4,8 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:foraneoapp/main.dart';
-import 'package:foraneoapp/pages/register.dart';
-import 'package:foraneoapp/pages/user_settings.dart';
+import 'package:foraneoapp/register.dart';
+import 'package:foraneoapp/user_settings.dart';
 import '../firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
