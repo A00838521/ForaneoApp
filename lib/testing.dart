@@ -62,7 +62,7 @@ class _TestingState extends State<Testing> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              'Dropdown value from MyCollectionPage: ${widget.dropdownValue}',
+              '¿Qué deseas agregar a ${widget.dropdownValue}?',
               style: TextStyle(fontSize: 24, color: Colors.white),
               textAlign: TextAlign.center,
             ),
