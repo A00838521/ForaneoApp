@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "29159976526",
+    "project_id": "foraneoapp-7f63d",
+    "storage_bucket": "foraneoapp-7f63d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29159976526:android:89a8780f4b75f6c6045d1f",
+        "android_client_info": {
+          "package_name": "com.example.foraneoapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdlzJmAOi6A8_OZu3IjckTkANZbHk7kjA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
