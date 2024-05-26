@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:foraneoapp/pages/register.dart';
 import 'firebase_options.dart';
 import 'pages/login.dart';
 
@@ -121,7 +122,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),),
             ]),
              Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                Container(
+              new GestureDetector(
+                onTap:() {
+                   Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterPage()));
+                },
+                child: Container(
                   margin: const EdgeInsets.symmetric(vertical: 20.0),
                   decoration: BoxDecoration(
                       color: Color.fromARGB(255, 255, 255, 255),
@@ -136,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         fontSize: 30.0),
                   ),
                 ),
-              ),
+              ),),
             ]),
 
           ],

@@ -2,21 +2,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:foraneoapp/main.dart';
 import '../firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-Future<bool> login_user(String email, String password)async{
+Future<bool> register_user(String email, String password, String name, int age , FirebaseFirestore db)async{
 try {
-        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: email,
-          password: password
-        );
-        return true;
-      } on FirebaseAuthException catch (e) {
-       return false;
-      }
-}
+  final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    email: email,
+    password: password,
+    
+  );
+  print("Credential generated");
+  String? user_uid = credential.user?.uid.toString();
+  print(user_uid);
+final user = <String, dynamic>{
+  "name": name,
+  "email": email,
+  "age": age,
+  "id": user_uid,
+};
+
+// Add a new document with a generated ID
+db.collection("users").add(user).then((DocumentReference doc) =>
+    print('DocumentSnapshot added with ID: ${doc.id}'));
+return true;
+  
+} on FirebaseAuthException catch (e) {
+  return false;
+ 
+}}
 
 String? email_validator(value) {
   final RegExp emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+$');
@@ -28,7 +44,7 @@ String? email_validator(value) {
 
 String? password_validator(value) {
    if (value == null || value.isEmpty) {
-                return 'Ingresa una contraseña valida';
+                return 'Ingresa datos validos';
               }
               return null;
 }
@@ -41,6 +57,11 @@ Widget Input_forms(Icon left_icon, String hidden_text, String validator_func, Te
             controller: controller_data,
             style: TextStyle(color:Color.fromARGB(255, 255, 255, 255)),
             obscureText: validator_func == "Password" ? true : false,
+            keyboardType: validator_func == "age" ? TextInputType.number : TextInputType.text,
+
+              inputFormatters: validator_func == "age" ? <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ] : null,
             decoration: InputDecoration(
               hintText: hidden_text,
     
@@ -59,18 +80,21 @@ Widget Input_forms(Icon left_icon, String hidden_text, String validator_func, Te
           ),);
 }
 
-class LoginPage extends StatefulWidget {
+class RegisterPage extends StatefulWidget {
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _RegisterPageState createState() => _RegisterPageState();
 }
 
 
-class _LoginPageState extends State<LoginPage> {
-
+class _RegisterPageState extends State<RegisterPage> {
+   FirebaseFirestore db = FirebaseFirestore.instance;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final nameController = TextEditingController();
+  final ageController = TextEditingController();
   bool wrong_data = false;
+
   @override
   void initState(){
     super.initState();
@@ -83,9 +107,6 @@ class _LoginPageState extends State<LoginPage> {
       print('User is signed in!');
     }
   });
-  
-  
-   // Call your function here
   }
  
   @override
@@ -102,19 +123,29 @@ class _LoginPageState extends State<LoginPage> {
         },),
       ),    
       body: Center(
-        child: Form(
+        
+        child: 
+        ListView(
+        children:<Widget>[Form(
           key: _formKey,
           child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-          Text("Iniciar Sesion",
+          Text("Registro",
                     style: TextStyle(
                         color: Color.fromARGB(255, 255, 255, 255),
                         fontSize: 50.0,
                         fontFamily: "Helvetica",
                         fontWeight: FontWeight.bold),
                   ),
-
+    Input_forms(Icon( Icons.person,
+      color: Color.fromARGB(255, 207, 207, 207),
+      size: 24.0,
+    ),"Ingresa tu nombre completo","Name",nameController),
+     Input_forms(Icon( Icons.date_range,
+      color: Color.fromARGB(255, 207, 207, 207),
+      size: 24.0,
+    ),"Ingresa tu edad","age",ageController),
           Input_forms(Icon( Icons.email,
       color: Color.fromARGB(255, 207, 207, 207),
       size: 24.0,
@@ -123,7 +154,7 @@ class _LoginPageState extends State<LoginPage> {
       color: Color.fromARGB(255, 207, 207, 207),
       size: 24.0,
     ),"Contraseña","Password",passwordController),
-    Visibility(visible: wrong_data,child: Text("El correo o contraseña son incorrectos, revise sus datos.", 
+    Visibility(visible: wrong_data,child: Text("Ocurrio un error, verifica tus datos e intenta de nuevo.", 
     style: TextStyle(color: Color.fromARGB(185, 255, 0, 0), fontSize: 15.0, fontFamily: "Helvetica",), 
     textAlign: TextAlign.center, 
     )),
@@ -134,18 +165,19 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {
                            wrong_data = false;
                          });
-                        print(emailController.text.trim());
-                        print(passwordController.text.trim());
-                        if (await login_user(emailController.text.trim(),passwordController.text.trim())){
-                          //navigate
+                      String email = emailController.text.trim();
+                     String password = passwordController.text.trim();
+                      int age = int.parse(ageController.text.trim());
+                      String name = nameController.text.trim();
+                      if(await register_user(email, password, name, age,db)){
+                          //navegar
                           Navigator.push(context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Main page',)));
-                        }
-                        else{
-                         setState(() {
+                      }
+                      else{
+                      setState(() {
                            wrong_data = true;
                          });
-                          
-                        }
+                      }
                     }  
                 
                   },
@@ -158,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                     vertical: 10.0, horizontal: 40.0),
                 child: Center(
                   child: Text(
-                    "Login",
+                    "Registrarse",
                     style: TextStyle(
                         color: Color.fromARGB(255, 0, 0, 0),
                         fontSize: 30.0),
@@ -169,7 +201,7 @@ class _LoginPageState extends State<LoginPage> {
              
 
           ],
-        ),),
+        ),),]),
       ),
     );
   }
